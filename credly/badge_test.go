@@ -210,7 +210,6 @@ func TestGetBadge(t *testing.T) {
 	mockClient.AssertExpectations(t)
 }
 
-
 func TestGetBadges_Failure(t *testing.T) {
 	mockClient := new(MockHTTPClient)
 	client := &Client{

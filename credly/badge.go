@@ -35,7 +35,6 @@ type getBadgesResponse struct {
 	Data []BadgeInfo `json:"data"`
 }
 
-
 // BadgeInfo represents the details of an issued badge.
 type BadgeInfo struct {
 	Id       string    `json:"id"`
@@ -58,7 +57,6 @@ type BadgeInfo struct {
 		Url       string `json:"url"`
 	} `json:"user"`
 }
-
 
 // IssueBadge issues a new badge to a user based on their email and personal details.
 //
