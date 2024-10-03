@@ -1,6 +1,7 @@
 # credly-go
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/isovalent/credly-go)](https://goreportcard.com/report/github.com/isovalent/credly-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/isovalent/credly-go.svg)](https://pkg.go.dev/github.com/isovalent/credly-go)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 `credly-go` is a Go client library for interacting with the Credly platform. It provides a simple and convenient way to programmatically access Credly's APIs and handle badges and templates.
