@@ -26,6 +26,7 @@ go get github.com/isovalent/credly-go
 package main
 
 import (
+    "fmt"
     "github.com/isovalent/credly-go/credly"
 )
 
@@ -34,7 +35,32 @@ func main() {
     client := credly.NewClient("your-api-token", "your-credly-org")
 
     // Get all badges for user joe@example.com
-    badges, err := client.GetBadges("joe@example.com")
+    badges, err := client.GetBadges("joe@example.com", nil)
+    if err != nil {
+        fmt.Printf("Error getting badges: %v\n", err)
+        return
+    }
+    
+    // Create a new badge template
+    newTemplate := &credly.CreateBadgeTemplateParams{
+        Name:              "Advanced Networking",
+        Description:       "This badge recognizes expertise in advanced networking concepts",
+        ImageURL:          "https://yourserver.com/badge-images/networking.png",
+        Skills:            []string{"Networking", "Routing", "TCP/IP"},
+        GlobalActivityURL: "https://example.com/badge-criteria/networking",
+        // Optional fields
+        Level:        "Advanced",
+        TimeToEarn:   "Months",
+        ReportingTags: []string{"technical", "networking"},
+    }
+    
+    template, err := client.CreateBadgeTemplate(newTemplate)
+    if err != nil {
+        fmt.Printf("Error creating badge template: %v\n", err)
+        return
+    }
+    
+    fmt.Printf("Created new badge template with ID: %s\n", template.Id)
 }
 ```
 
