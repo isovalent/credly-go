@@ -45,7 +45,7 @@ func (c *Client) ArchiveBadgeTemplate(templateId string) (b BadgeTemplate, err e
 	var response struct {
 		Data BadgeTemplate `json:"data"`
 	}
-	
+
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		return b, fmt.Errorf("[credly.ArchiveBadgeTemplate] Failed to parse response: %v", err)
 	}
@@ -78,7 +78,7 @@ func (c *Client) UnarchiveBadgeTemplate(templateId string) (b BadgeTemplate, err
 	var response struct {
 		Data BadgeTemplate `json:"data"`
 	}
-	
+
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		return b, fmt.Errorf("[credly.UnarchiveBadgeTemplate] Failed to parse response: %v", err)
 	}

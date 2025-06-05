@@ -45,11 +45,11 @@ func TestCreateBadgeTemplate(t *testing.T) {
 
 	// Mock response
 	responseTemplate := BadgeTemplate{
-		Id:         "new-badge-template-id",
-		Name:       "Test Badge",
-		Description: "Test Badge Description",
-		ImageUrl:   "https://example.com/image.png",
-		Skills:     []string{"Skill1", "Skill2", "Skill3"},
+		Id:                "new-badge-template-id",
+		Name:              "Test Badge",
+		Description:       "Test Badge Description",
+		ImageUrl:          "https://example.com/image.png",
+		Skills:            []string{"Skill1", "Skill2", "Skill3"},
 		GlobalActivityURL: "https://example.com/criteria",
 	}
 
