@@ -63,6 +63,42 @@ func main() {
 	fmt.Println("Press Enter to continue with the demo...")
 	fmt.Scanln()
 
+	// Update the badge template
+	fmt.Println("Updating the badge template...")
+	updateParams := &credly.UpdateBadgeTemplateParams{
+		Name:              badgeName + " (Updated)",
+		Description:       "This badge template has been updated via the credly-go library.",
+		ImageURL:          "https://labs-map.isovalent.com/labs/cilium-cluster-mesh/badge.png", // Updated image
+		Skills:            []string{"Testing", "Go Programming", "API Integration", "Updated Skill"},
+		GlobalActivityURL: "https://example.com/updated-criteria",
+		// Activities
+		Activities: []credly.BadgeTemplateActivity{
+			{
+				ActivityType:            "Award",
+				Title:                   "Awarded for completing the updated test badge template demo",
+				ActivityURL:             "https://example.com/updated-award-criteria",
+				RequiredBadgeTemplateID: "required-badge-template-id-updated", // Example ID
+			},
+		},
+		// Optional fields
+		Level:         "Advanced",
+		TimeToEarn:    "Weeks",
+		TypeCategory:  "Certification",
+		ReportingTags: []string{"test", "api", "updated"},
+	}
+	updatedTemplate, err := client.UpdateBadgeTemplate(template.Id, updateParams)
+	if err != nil {
+		fmt.Printf("Error updating badge template: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("Badge template updated successfully. New name: %s\n", updatedTemplate.Name)
+	fmt.Printf("Badge state after update: %s\n", updatedTemplate.State)
+
+	// Wait for user to review the updated badge template
+	fmt.Println("Badge template updated successfully. You can review it in your Credly account.")
+	fmt.Println("Press Enter to continue with the demo...")
+	fmt.Scanln()
+
 	// Archive the badge template
 	fmt.Println("Archiving the badge template...")
 	archivedTemplate, err := client.ArchiveBadgeTemplate(template.Id)

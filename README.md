@@ -9,6 +9,7 @@
 ## Features
 
 - **Badge Management**: Issue, retrieve, and manage badges using the Credly API.
+- **Badge Template Management**: Create, update, retrieve, archive, unarchive, and delete badge templates.
 
 ## Installation
 
