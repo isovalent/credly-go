@@ -32,15 +32,35 @@ type getBadgeTemplatesResponse struct {
 
 // BadgeTemplate represents the details of a badge template in Credly.
 type BadgeTemplate struct {
-	Id                string   `json:"id,omitempty"`
-	Name              string   `json:"name"`
-	Description       string   `json:"description"`
-	Skills            []string `json:"skills"`
-	Url               string   `json:"url"`
-	ImageUrl          string   `json:"image_url"`
-	VanitySlug        string   `json:"vanity_slug"`
-	GlobalActivityURL string   `json:"global_activity_url"`
-	State             string   `json:"state"`           // active, archived, or draft
+	Id                       string   `json:"id,omitempty"`
+	Name                     string   `json:"name"`
+	Description              string   `json:"description"`
+	Skills                   []string `json:"skills"`
+	Url                      string   `json:"url"`
+	ImageUrl                 string   `json:"image_url"`
+	VanitySlug               string   `json:"vanity_slug"`
+	GlobalActivityURL        string   `json:"global_activity_url"`
+	State                    string   `json:"state"`                     // active, archived, or draft
+	AllowDuplicateBadges     bool     `json:"allow_duplicate_badges"`
+	BadgesCount              int      `json:"badges_count"`
+	Public                   bool     `json:"public"`
+	AllowDelete              bool     `json:"allow_delete"`
+	AllowArchive             bool     `json:"allow_archive"`
+	Cost                     string   `json:"cost"`                      // Free, Paid
+	Level                    string   `json:"level"`                     // Foundational, Intermediate, Advanced
+	TimeToEarn               string   `json:"time_to_earn"`              // Hours, Days, Weeks, Months, Years
+	TypeCategory             string   `json:"type_category"`             // Experience, Learning, Validation, Certification
+	LockBadgeState           bool     `json:"lock_badge_state"`
+	RecipientType            string   `json:"recipient_type"`
+	ShowSkillTagLinks        bool     `json:"show_skill_tag_links"`
+	VisitlyPrintingDisabled  bool     `json:"printing_disabled"`
+	Visibility               string   `json:"visibility"`                // public, private
+	VariantsAllowed          bool     `json:"variants_allowed"`
+	VariantType              string   `json:"variant_type"`
+	ReportingTags            []string `json:"reporting_tags"`
+	CreatedAt                string   `json:"created_at"`
+	UpdatedAt                string   `json:"updated_at"`
+	StateUpdatedAt           string   `json:"state_updated_at"`
 }
 
 // GetBadgeTemplate retrieves a specific badge template by its ID.
