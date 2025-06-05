@@ -32,12 +32,15 @@ type getBadgeTemplatesResponse struct {
 
 // BadgeTemplate represents the details of a badge template in Credly.
 type BadgeTemplate struct {
-	Id         string   `json:"id,omitempty"`
-	Name       string   `json:"name"`
-	Skills     []string `json:"skills"`
-	Url        string   `json:"url"`
-	ImageUrl   string   `json:"image_url"`
-	VanitySlug string   `json:"vanity_slug"`
+	Id                string   `json:"id,omitempty"`
+	Name              string   `json:"name"`
+	Description       string   `json:"description"`
+	Skills            []string `json:"skills"`
+	Url               string   `json:"url"`
+	ImageUrl          string   `json:"image_url"`
+	VanitySlug        string   `json:"vanity_slug"`
+	GlobalActivityURL string   `json:"global_activity_url"`
+	State             string   `json:"state"`           // active, archived, or draft
 }
 
 // GetBadgeTemplate retrieves a specific badge template by its ID.
