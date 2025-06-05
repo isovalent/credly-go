@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -40,16 +41,16 @@ type CreateBadgeTemplateParams struct {
 	GlobalActivityURL string `json:"global_activity_url"`
 
 	// Optional fields below
-	Cost              string                  `json:"cost,omitempty"`              // "Free" or "Paid"
-	Level             string                  `json:"level,omitempty"`             // "Foundational", "Intermediate", or "Advanced"
-	TimeToEarn        string                  `json:"time_to_earn,omitempty"`      // "Hours", "Days", "Weeks", "Months", or "Years"
-	TypeCategory      string                  `json:"type_category,omitempty"`     // "Experience", "Learning", "Validation", or "Certification"
-	Translatable      *bool                   `json:"translatable,omitempty"`
-	ReportingTags     []string                `json:"reporting_tags,omitempty"`
-	Alignments        []BadgeTemplateAlignment `json:"alignments,omitempty"`
-	Recommendations   []BadgeRecommendation   `json:"recommendations,omitempty"`
-	LockBadgeState    *bool                   `json:"lock_badge_state,omitempty"`
-	Activities        []BadgeTemplateActivity `json:"badge_template_activities,omitempty"`
+	Cost            string                   `json:"cost,omitempty"`          // "Free" or "Paid"
+	Level           string                   `json:"level,omitempty"`         // "Foundational", "Intermediate", or "Advanced"
+	TimeToEarn      string                   `json:"time_to_earn,omitempty"`  // "Hours", "Days", "Weeks", "Months", or "Years"
+	TypeCategory    string                   `json:"type_category,omitempty"` // "Experience", "Learning", "Validation", or "Certification"
+	Translatable    *bool                    `json:"translatable,omitempty"`
+	ReportingTags   []string                 `json:"reporting_tags,omitempty"`
+	Alignments      []BadgeTemplateAlignment `json:"alignments,omitempty"`
+	Recommendations []BadgeRecommendation    `json:"recommendations,omitempty"`
+	LockBadgeState  *bool                    `json:"lock_badge_state,omitempty"`
+	Activities      []BadgeTemplateActivity  `json:"badge_template_activities,omitempty"`
 }
 
 // BadgeTemplateAlignment represents an educational standard alignment
@@ -69,7 +70,7 @@ type BadgeRecommendation struct {
 	RecommendedBadgeTemplateID string `json:"recommended_badge_template_id,omitempty"`
 
 	// 3. By Type (recommending a URL)
-	Type        string `json:"type,omitempty"`        // badge, information, education, employment, participation, offer
+	Type        string `json:"type,omitempty"` // badge, information, education, employment, participation, offer
 	ActivityURL string `json:"activity_url,omitempty"`
 	Title       string `json:"title,omitempty"`
 	Description string `json:"description,omitempty"`
@@ -118,22 +119,22 @@ func (c *Client) CreateBadgeTemplate(params *CreateBadgeTemplateParams) (b Badge
 
 	// Create a copy of params for JSON marshalling
 	requestData := make(map[string]interface{})
-	
+
 	// Marshal the struct into a map and set all fields except ImageURL
 	paramsJSON, err := json.Marshal(params)
 	if err != nil {
 		return b, fmt.Errorf("[credly.CreateBadgeTemplate] Failed to marshal parameters: %v", err)
 	}
-	
+
 	if err := json.Unmarshal(paramsJSON, &requestData); err != nil {
 		return b, fmt.Errorf("[credly.CreateBadgeTemplate] Failed to prepare request data: %v", err)
 	}
-	
+
 	// Add image data in the format expected by the API
 	requestData["image"] = map[string]string{
 		"remote_upload_url": params.ImageURL,
 	}
-	
+
 	// Marshal the request data into JSON
 	reqBody, err := json.Marshal(requestData)
 	if err != nil {
@@ -155,6 +156,12 @@ func (c *Client) CreateBadgeTemplate(params *CreateBadgeTemplateParams) (b Badge
 
 	// Check response status
 	if resp.StatusCode != http.StatusCreated {
+		// Get the response body for more details
+		body, _ := io.ReadAll(resp.Body)
+		if len(body) > 0 {
+			return b, fmt.Errorf("[credly.CreateBadgeTemplate] API request failed with status code: %d, response: %s", resp.StatusCode, body)
+		}
+		// If no body, just return the status code
 		return b, fmt.Errorf("[credly.CreateBadgeTemplate] API request failed with status code: %d", resp.StatusCode)
 	}
 
@@ -162,7 +169,7 @@ func (c *Client) CreateBadgeTemplate(params *CreateBadgeTemplateParams) (b Badge
 	var response struct {
 		Data BadgeTemplate `json:"data"`
 	}
-	
+
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		return b, fmt.Errorf("[credly.CreateBadgeTemplate] Failed to parse response: %v", err)
 	}

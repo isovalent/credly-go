@@ -16,6 +16,7 @@ package credly
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -38,6 +39,12 @@ func (c *Client) DeleteBadgeTemplate(templateId string) error {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusNoContent {
+		// Parse body for more details if needed
+		body, _ := io.ReadAll(resp.Body)
+		if len(body) > 0 {
+			return fmt.Errorf("[credly.DeleteBadgeTemplate] API request failed with status code: %d, response: %s", resp.StatusCode, body)
+		}
+		// If no body, just return the status code
 		return fmt.Errorf("[credly.DeleteBadgeTemplate] API request failed with status code: %d", resp.StatusCode)
 	}
 
