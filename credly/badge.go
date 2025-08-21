@@ -43,6 +43,8 @@ type BadgeInfo struct {
 	IssuedAt time.Time `json:"issued_at"`
 	State    string    `json:"state"`
 
+	AcceptBadgeUrl string `json:"accept_badge_url"`
+
 	Image struct {
 		Url string `json:"url"`
 	} `json:"image"`
