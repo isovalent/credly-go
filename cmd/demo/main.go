@@ -61,7 +61,7 @@ func main() {
 	// Wait for user to review the created badge template
 	fmt.Println("Badge template created successfully. You can review it in your Credly account.")
 	fmt.Println("Press Enter to continue with the demo...")
-	fmt.Scanln()
+	_, _ = fmt.Scanln()
 
 	// Update the badge template
 	fmt.Println("Updating the badge template...")
@@ -97,7 +97,7 @@ func main() {
 	// Wait for user to review the updated badge template
 	fmt.Println("Badge template updated successfully. You can review it in your Credly account.")
 	fmt.Println("Press Enter to continue with the demo...")
-	fmt.Scanln()
+	_, _ = fmt.Scanln()
 
 	// Archive the badge template
 	fmt.Println("Archiving the badge template...")
@@ -112,7 +112,7 @@ func main() {
 	// Wait for user to review the archived badge template
 	fmt.Println("Badge template archived successfully. You can review it in your Credly account.")
 	fmt.Println("Press Enter to continue with the demo...")
-	fmt.Scanln()
+	_, _ = fmt.Scanln()
 
 	// Unarchive the badge template
 	fmt.Println("Unarchiving the badge template...")
@@ -127,12 +127,12 @@ func main() {
 	// Wait for user to review the unarchived badge template
 	fmt.Println("Badge template unarchived successfully. You can review it in your Credly account.")
 	fmt.Println("Press Enter to continue with the demo...")
-	fmt.Scanln()
+	_, _ = fmt.Scanln()
 
 	// Prompt user to delete the badge template
 	fmt.Println("Do you want to delete the badge template? (yes/no)")
 	var response string
-	fmt.Scanln(&response)
+	_, _ = fmt.Scanln(&response)
 	if response != "yes" {
 		fmt.Println("Skipping deletion of badge template. Demo completed successfully!")
 		os.Exit(0)
