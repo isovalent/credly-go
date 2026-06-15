@@ -18,6 +18,7 @@ import (
 	"encoding/base64"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -42,6 +43,10 @@ func TestNewClient(t *testing.T) {
 
 	assert.NotNil(t, client.HTTPClient)
 	assert.Equal(t, expectedToken, client.authToken)
+
+	httpClient, ok := client.HTTPClient.(*http.Client)
+	assert.True(t, ok, "HTTPClient should be *http.Client")
+	assert.Equal(t, 30*time.Second, httpClient.Timeout, "HTTPClient should have a 30s timeout")
 }
 
 func TestDo(t *testing.T) {
