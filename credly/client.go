@@ -19,6 +19,7 @@ package credly
 import (
 	"encoding/base64"
 	"net/http"
+	"time"
 )
 
 // HTTPClientInterface defines the methods that http.Client and MockHTTPClient must implement.
@@ -55,7 +56,7 @@ func NewClient(token, organizationId string) *Client {
 	encodedToken := base64.StdEncoding.EncodeToString([]byte(token + "|"))
 
 	return &Client{
-		HTTPClient:     &http.Client{},
+		HTTPClient:     &http.Client{Timeout: 30 * time.Second},
 		authToken:      encodedToken,
 		OrganizationId: organizationId,
 	}
