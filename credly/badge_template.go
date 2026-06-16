@@ -102,7 +102,9 @@ func (c *Client) GetBadgeTemplate(templateId string) (b BadgeTemplate, err error
 //
 // Returns: A slice of BadgeTemplate representing all templates, or an error if the operation fails.
 func (c *Client) GetBadgeTemplates() (b []BadgeTemplate, err error) {
-	url := fmt.Sprintf("https://api.credly.com/v1/organizations/%s/badge_templates", c.OrganizationId)
+	const per = 100 // Number of badge templates to retrieve per request. Adjust as needed for pagination.
+
+	url := fmt.Sprintf("https://api.credly.com/v1/organizations/%s/badge_templates?per=%d", c.OrganizationId, per)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
