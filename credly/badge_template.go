@@ -27,7 +27,16 @@ type getBadgeTemplateResponse struct {
 
 // getBadgeTemplatesResponse represents the response structure when fetching multiple badge templates.
 type getBadgeTemplatesResponse struct {
-	Data []BadgeTemplate `json:"data"`
+	Data     []BadgeTemplate `json:"data"`
+	Metadata struct {
+		Count           int    `json:"count"`
+		CurrentPage     int    `json:"current_page"`
+		TotalCount      int    `json:"total_count"`
+		TotalPages      int    `json:"total_pages"`
+		Per             int    `json:"per"`
+		PreviousPageUrl string `json:"previous_page_url"`
+		NextPageUrl     string `json:"next_page_url"`
+	} `json:"metadata"`
 }
 
 // BadgeTemplate represents the details of a badge template in Credly.
@@ -101,30 +110,42 @@ func (c *Client) GetBadgeTemplate(templateId string) (b BadgeTemplate, err error
 // GetBadgeTemplates retrieves all badge templates for the organization.
 //
 // Returns: A slice of BadgeTemplate representing all templates, or an error if the operation fails.
-func (c *Client) GetBadgeTemplates() (b []BadgeTemplate, err error) {
-	const per = 100 // Number of badge templates to retrieve per request. Adjust as needed for pagination.
-
+func (c *Client) GetBadgeTemplates() ([]BadgeTemplate, error) {
+	const per = 100
 	url := fmt.Sprintf("https://api.credly.com/v1/organizations/%s/badge_templates?per=%d", c.OrganizationId, per)
+	var b []BadgeTemplate
+	for {
+		badgeResp, err := c.fetchBadgeTemplatePage(url)
+		if err != nil {
+			return b, err
+		}
+		b = append(b, badgeResp.Data...)
+		if badgeResp.Metadata.CurrentPage >= badgeResp.Metadata.TotalPages {
+			break
+		}
+		url = badgeResp.Metadata.NextPageUrl
+	}
+	return b, nil
+}
 
+func (c *Client) fetchBadgeTemplatePage(url string) (getBadgeTemplatesResponse, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return b, err
+		return getBadgeTemplatesResponse{}, err
 	}
-
 	resp, err := c.Do(req)
 	if err != nil {
-		return b, err
+		return getBadgeTemplatesResponse{}, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return b, fmt.Errorf("[credly.GetBadgeTemplates] API request failed with status code: %d", resp.StatusCode)
+		return getBadgeTemplatesResponse{}, fmt.Errorf("[credly.GetBadgeTemplates] API request failed with status code: %d", resp.StatusCode)
 	}
 
 	var badgeResp getBadgeTemplatesResponse
 	if err := json.NewDecoder(resp.Body).Decode(&badgeResp); err != nil {
-		return b, fmt.Errorf("[credly.GetBadgeTemplates] Failed to parse JSON data: %v", err)
+		return getBadgeTemplatesResponse{}, fmt.Errorf("[credly.GetBadgeTemplates] Failed to parse JSON data: %v", err)
 	}
-
-	return badgeResp.Data, nil
+	return badgeResp, nil
 }
