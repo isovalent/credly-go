@@ -36,9 +36,11 @@ func TestGetBadgeTemplate(t *testing.T) {
 	templateId := "template-123"
 
 	expectedTemplate := BadgeTemplate{
-		Id:       "template-123",
-		Name:     "Test Badge",
-		ImageUrl: "http://image.url",
+		Id:                  "template-123",
+		Name:                "Test Badge",
+		ImageUrl:            "http://image.url",
+		EarnThisBadgeURL:    "https://example.com/enroll",
+		EnableEarnThisBadge: true,
 	}
 
 	responseBody, _ := json.Marshal(getBadgeTemplateResponse{

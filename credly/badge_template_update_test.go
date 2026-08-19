@@ -38,13 +38,16 @@ func TestUpdateBadgeTemplate(t *testing.T) {
 	templateID := "template-123"
 
 	// Parameters for updating the badge template
+	enableEarnThisBadge := false
 	updateParams := &UpdateBadgeTemplateParams{
-		Name:              "Updated Badge",
-		Description:       "Updated badge template description",
-		ImageURL:          "https://example.com/updated-image.png",
-		Skills:            []string{"UpdatedSkill1", "UpdatedSkill2", "UpdatedSkill3"},
-		GlobalActivityURL: "https://example.com/updated-criteria",
-		ReportingTags:     []string{"updated", "tag", "test"},
+		Name:                "Updated Badge",
+		Description:         "Updated badge template description",
+		ImageURL:            "https://example.com/updated-image.png",
+		Skills:              []string{"UpdatedSkill1", "UpdatedSkill2", "UpdatedSkill3"},
+		GlobalActivityURL:   "https://example.com/updated-criteria",
+		EarnThisBadgeURL:    "https://example.com/updated-enroll",
+		EnableEarnThisBadge: &enableEarnThisBadge,
+		ReportingTags:       []string{"updated", "tag", "test"},
 	}
 
 	// Mock response for update
@@ -94,6 +97,12 @@ func TestUpdateBadgeTemplate(t *testing.T) {
 			return false
 		}
 		if requestBody["global_activity_url"] != "https://example.com/updated-criteria" {
+			return false
+		}
+		if requestBody["earn_this_badge_url"] != "https://example.com/updated-enroll" {
+			return false
+		}
+		if requestBody["enable_earn_this_badge"] != false {
 			return false
 		}
 

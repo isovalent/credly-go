@@ -49,6 +49,8 @@ type BadgeTemplate struct {
 	ImageUrl                string                   `json:"image_url"`
 	VanitySlug              string                   `json:"vanity_slug"`
 	GlobalActivityURL       string                   `json:"global_activity_url"`
+	EarnThisBadgeURL        string                   `json:"earn_this_badge_url"`
+	EnableEarnThisBadge     bool                     `json:"enable_earn_this_badge"`
 	State                   string                   `json:"state"` // active, archived, or draft
 	AllowDuplicateBadges    bool                     `json:"allow_duplicate_badges"`
 	BadgesCount             int                      `json:"badges_count"`

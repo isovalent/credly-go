@@ -40,6 +40,13 @@ type UpdateBadgeTemplateParams struct {
 	// GlobalActivityURL is the criteria URL for the badge (optional for updates)
 	GlobalActivityURL string `json:"global_activity_url,omitempty"`
 
+	// EarnThisBadgeURL is the public URL where users can register or enroll to earn the badge.
+	EarnThisBadgeURL string `json:"earn_this_badge_url,omitempty"`
+
+	// EnableEarnThisBadge controls whether the "Earn this Badge" button is displayed.
+	// A pointer distinguishes an explicit false value from an omitted value.
+	EnableEarnThisBadge *bool `json:"enable_earn_this_badge,omitempty"`
+
 	// Optional fields below
 	Cost             string                   `json:"cost,omitempty"`          // "Free" or "Paid"
 	Level            string                   `json:"level,omitempty"`         // "Foundational", "Intermediate", or "Advanced"

@@ -35,12 +35,15 @@ func TestCreateBadgeTemplate(t *testing.T) {
 	}
 
 	// Test badge template creation data
+	enableEarnThisBadge := true
 	templateToCreate := &CreateBadgeTemplateParams{
-		Name:              "Test Badge",
-		Description:       "Test Badge Description",
-		ImageURL:          "https://example.com/image.png",
-		Skills:            []string{"Skill1", "Skill2", "Skill3"},
-		GlobalActivityURL: "https://example.com/criteria",
+		Name:                "Test Badge",
+		Description:         "Test Badge Description",
+		ImageURL:            "https://example.com/image.png",
+		Skills:              []string{"Skill1", "Skill2", "Skill3"},
+		GlobalActivityURL:   "https://example.com/criteria",
+		EarnThisBadgeURL:    "https://example.com/enroll",
+		EnableEarnThisBadge: &enableEarnThisBadge,
 	}
 
 	// Mock response
@@ -90,6 +93,12 @@ func TestCreateBadgeTemplate(t *testing.T) {
 			return false
 		}
 		if requestBody["global_activity_url"] != "https://example.com/criteria" {
+			return false
+		}
+		if requestBody["earn_this_badge_url"] != "https://example.com/enroll" {
+			return false
+		}
+		if requestBody["enable_earn_this_badge"] != true {
 			return false
 		}
 
